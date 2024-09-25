@@ -18,8 +18,7 @@ public class LoginModule {
 
     @Provides
     public LoginRepository provideLoginRepository(){
-        return new MemoryRepository();//cambiar aca si queremos en lugar de un repo en memoria,un api, un cloud...
-        //clase 33 -> minuto 5:30 explica todo el MVP del login
+        return new MemoryRepository();
     }
 
 

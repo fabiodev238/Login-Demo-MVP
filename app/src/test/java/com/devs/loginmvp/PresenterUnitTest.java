@@ -25,12 +25,7 @@ public class PresenterUnitTest {
         mockedModel = mock(LoginActivityMVP.Model.class);
         mockedView = mock(LoginActivityMVP.View.class);
 
-        user = new User("Manolo", "Escobar");
-
-        // when(mockedModel.getUser()).thenReturn(user);
-
-        //  when(mockedView.getFirstName()).thenReturn("Antonio");
-        // when(mockedView.getLastName()).thenReturn("Banderas");
+        user = new User("Franco", "Ortega");
 
         presenter = new LoginActivityPresenter(mockedModel);
         presenter.setView(mockedView);
@@ -39,7 +34,7 @@ public class PresenterUnitTest {
     @Test
     public void noExistsInteractionWithView() {
         presenter.getCurrentUser();
-        // verifyZeroInteractions(mockedView);
+
         verify(mockedView, times(1)).showUserNotAvailable();
     }
 
@@ -49,13 +44,11 @@ public class PresenterUnitTest {
 
         presenter.getCurrentUser();
 
-        //Comprobamos la interactuación con el modelo de datos
         verify(mockedModel, times(1)).getUser();
 
 
-        //Comprobamos la interactuación con la vista
-        verify(mockedView, times(1)).setFirstName("Manolo");
-        verify(mockedView, times(1)).setLastName("Escobar");
+        verify(mockedView, times(1)).setFirstName("Franco");
+        verify(mockedView, times(1)).setLastName("Ortega");
         verify(mockedView, never()).showUserNotAvailable();
 
     }
@@ -66,13 +59,10 @@ public class PresenterUnitTest {
 
         presenter.getCurrentUser();
 
-        //Comprobamos la interactuación con el modelo de datos
         verify(mockedModel, times(1)).getUser();
 
-
-        //Comprobamos la interactuación con la vista
-        verify(mockedView, never()).setFirstName("Manolo");
-        verify(mockedView, never()).setLastName("Escobar");
+        verify(mockedView, never()).setFirstName("Franco");
+        verify(mockedView, never()).setLastName("Ortega");
         verify(mockedView, times(1)).showUserNotAvailable();
 
     }
@@ -89,31 +79,32 @@ public class PresenterUnitTest {
 
 
         //Segunda prueba poniendo un valor en el campo firstname y dejando el lastname vacío
-        when(mockedView.getFirstName()).thenReturn("Antonio");
+        when(mockedView.getFirstName()).thenReturn("Franco");
         when(mockedView.getLastName()).thenReturn("");
 
         presenter.loginButtonClicked();
 
-        verify(mockedView, times(2)).getFirstName();//El método se llama dos veces, una en la prueba anterior, y una en la actual!
-        verify(mockedView, times(1)).getLastName(); //Este método es la primera vez que se llama, ya que antes no pasó el test booleano
-        verify(mockedView, times(2)).showInputError();//El método se llamó antes y de nuevo ahora, en total dos veces
+        verify(mockedView, times(2)).getFirstName();
+        verify(mockedView, times(1)).getLastName();
+        verify(mockedView, times(2)).showInputError();
     }
     @Test
     public void saveValidUser(){
 
-        when(mockedView.getFirstName()).thenReturn("Juan Gabriel");
-        when(mockedView.getLastName()).thenReturn("Gomila");
+
+
+        when(mockedView.getFirstName()).thenReturn("Sergio");
+        when(mockedView.getLastName()).thenReturn("Pérez");
 
         presenter.loginButtonClicked();
 
-        //Las llamadas deben ser dobles, una en el if y otro cuando se crea el usuario
         verify(mockedView, times(2)).getFirstName();
         verify(mockedView, times(2)).getLastName();
 
-        //Miramos que el modelo persista en el repositorio
-        verify(mockedModel, times(1)).createUser("Juan Gabriel", "Gomila");
 
-        //Miramos que se muestre el mensaje de éxito al usuario
+        verify(mockedModel, times(1)).createUser("Sergio", "Pérez");
+
+
         verify(mockedView, times(1)).showUserSaved();
 
 
